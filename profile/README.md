@@ -1,6 +1,6 @@
 # TrueNAS Community Sysexts
 
-Community-maintained [systemd-sysext](https://www.freedesktop.org/software/systemd/man/systemd-sysext.html) packages that extend [TrueNAS SCALE](https://www.truenas.com/truenas-scale/) with hardware support and tooling that isn't shipped in the stock image — without modifying the immutable root filesystem.
+Community-maintained [systemd-sysext](https://www.freedesktop.org/software/systemd/man/systemd-sysext.html) packages that extend [TrueNAS SCALE](https://www.truenas.com/truenas-scale/) with hardware support (drivers) and tooling (apps) that isn't shipped in the stock image — without modifying the immutable root filesystem.
 
 Each sysext lives in its own repo with its own install scripts, build pipeline, and release cadence.
 
