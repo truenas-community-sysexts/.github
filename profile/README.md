@@ -13,16 +13,16 @@ Each sysext lives in its own repo with its own install scripts, build pipeline, 
 
 ### NVIDIA GPU driver sysexts:
 
-- zzzhouuu/truenas-nvidia-drivers - Legacy GPU driver build framework with pre-built artifacts (GTX 700/900/10-series, Quadro M/P, Tesla M/P)
-- biohazardious/truenas-nvidia-driver-updater - Docker-automated sysext builder using a filesystem-diff approach
-- binary-person/truenas-nvidia-raw-builder - Interactive install script with pre-built releases for multiple TrueNAS/NVIDIA version combos
-- oxc/truenas-nvidia-legacy - Dockerfile-based legacy driver builder with good depmod handling
-- Renari/truenas-legacy-nvidia-driver - Minimal wrapper around truenas/scale-build for legacy nvidia.raw via CI
-- jbaznik/truenas-nvidia-drivers - Early legacy driver project with pre-built artifacts
+- [zzzhouuu/truenas-nvidia-drivers](https://github.com/zzzhouuu/truenas-nvidia-drivers) - Legacy GPU driver build framework with pre-built artifacts (GTX 700/900/10-series, Quadro M/P, Tesla M/P)
+- [biohazardious/truenas-nvidia-driver-updater](https://github.com/biohazardious/truenas-nvidia-driver-updater) - Docker-automated sysext builder using a filesystem-diff approach
+- [binary-person/truenas-nvidia-raw-builder](https://github.com/binary-person/truenas-nvidia-raw-builder) - Interactive install script with pre-built releases for multiple TrueNAS/NVIDIA version combos
+- [oxc/truenas-nvidia-legacy](https://github.com/oxc/truenas-nvidia-legacy) - Dockerfile-based legacy driver builder with good depmod handling
+- [Renari/truenas-legacy-nvidia-driver](https://github.com/Renari/truenas-legacy-nvidia-driver) - Minimal wrapper around truenas/scale-build for legacy nvidia.raw via CI
+- [jbaznik/truenas-nvidia-drivers](https://github.com/jbaznik/truenas-nvidia-drivers) - Early legacy driver project with pre-built artifacts
 
 ### Not sysext, but related:
 
-cbetti/truenas-coral-pcie-driver-helper - Coral Edge TPU driver via DKMS 
+[cbetti/truenas-coral-pcie-driver-helper](https://github.com/cbetti/truenas-coral-pcie-driver-helper) - Coral Edge TPU driver via DKMS
 
 ## Contributing
 
