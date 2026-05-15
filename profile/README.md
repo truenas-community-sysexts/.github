@@ -22,7 +22,7 @@ Each sysext lives in its own repo with its own install scripts, build pipeline, 
 
 ### Not sysext, but related:
 
-[cbetti/truenas-coral-pcie-driver-helper](https://github.com/cbetti/truenas-coral-pcie-driver-helper) - Coral Edge TPU driver via DKMS
+- [cbetti/truenas-coral-pcie-driver-helper](https://github.com/cbetti/truenas-coral-pcie-driver-helper) - Coral Edge TPU driver via DKMS
 
 ## Contributing
 
