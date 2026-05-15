@@ -9,6 +9,8 @@ Each sysext lives in its own repo with its own install scripts, build pipeline, 
 - **[hailo8-support](https://github.com/truenas-community-sysexts/hailo8-support)** — Hailo-8 AI accelerator driver, firmware, and userspace tooling. Useful for Frigate hardware acceleration.
 - **[nvidia-mig-support](https://github.com/truenas-community-sysexts/nvidia-mig-support)** — Nvidia GPU sysext with MIG (Multi-Instance GPU) support.
 
+## Related Projects
+
 ## Contributing
 
 See [CONTRIBUTING.md](https://github.com/truenas-community-sysexts/.github/blob/main/CONTRIBUTING.md) for the org-wide quality bar, expectations around testing on real hardware, and our take on AI-assisted contributions.
