@@ -4,7 +4,7 @@ Community-maintained [systemd-sysext](https://www.freedesktop.org/software/syste
 
 Each sysext lives in its own repo with its own install scripts, build pipeline, and release cadence.
 
-## Active sysexts
+## Active sysexts provided by this org
 
 - **[hailo8-support](https://github.com/truenas-community-sysexts/hailo8-support)** — Hailo-8 AI accelerator driver, firmware, and userspace tooling. Useful for Frigate hardware acceleration.
 - **[nvidia-mig-support](https://github.com/truenas-community-sysexts/nvidia-mig-support)** — Nvidia GPU sysext with MIG (Multi-Instance GPU) support.
