@@ -24,6 +24,10 @@ Each sysext lives in its own repo with its own install scripts, build pipeline, 
 
 - [cbetti/truenas-coral-pcie-driver-helper](https://github.com/cbetti/truenas-coral-pcie-driver-helper) - Coral Edge TPU driver via DKMS
 
+## Community sysext guide
+
+New to building sysexts for TrueNAS? Check out the [community sysext guide](https://github.com/truenas-community-sysexts/.github/blob/main/docs/sysext-guide.md), which covers the TrueNAS-specific quirks of building, installing, and maintaining sysext packages.
+
 ## Contributing
 
 See [CONTRIBUTING.md](https://github.com/truenas-community-sysexts/.github/blob/main/CONTRIBUTING.md) for the org-wide quality bar, expectations around testing on real hardware, and our take on AI-assisted contributions.
