@@ -298,4 +298,4 @@ Community projects building sysexts and drivers for TrueNAS SCALE (as of 2026-05
 
 ## Contributing
 
-This guide is a living document. If you've discovered a TrueNAS sysext pattern that should be documented here, or if something in this guide is wrong or outdated, please open an issue or PR.
+This guide is a living document. If you've discovered a TrueNAS sysext pattern that should be documented here, or if something in this guide is wrong or outdated, please [open an issue](https://github.com/truenas-community-sysexts/.github/issues).
