@@ -105,7 +105,7 @@ Two solutions:
 
 1. **Ship a combined modules.dep.** Extract the base system's full module tree (from the TrueNAS rootfs squashfs or the `linux-image` deb), copy your compiled `.ko` files into it, run `depmod` against the merged tree, and include the resulting index files in your sysext. This is the recommended approach when your module will be loaded via `modprobe`.
 
-2. **Use `insmod` instead of `modprobe`.** If your sysext adds a single module with no in-tree dependencies, you can skip `modules.dep` entirely and load via `insmod /path/to/module.ko`. This is simpler but only works for standalone modules.
+2. **Use `insmod` instead of `modprobe`.** If your sysext adds a single module with no in-tree dependencies, you can skip `modules.dep` entirely and load via `insmod /path/to/module.ko`. This is simpler but only works for standalone modules. Note that `insmod` does no dependency resolution -- that is exactly what the overlayed-away `modules.dep` used to provide. So if your stack has more than one module, you must load them in dependency order by hand: coral-pcie-support loads `gasket.ko` before `apex.ko` because `apex` depends on symbols `gasket` exports, and loading them out of order fails with unresolved-symbol errors.
 
 ### CI runner selection
 
@@ -129,14 +129,16 @@ A good install script should:
 1. **Auto-detect the TrueNAS version** via `midclt call system.info | python3 -c 'import sys, json; print(json.load(sys.stdin)["version"])'` (python3 ships with TrueNAS SCALE; `jq` does not, so prefer python3 for JSON parsing)
 2. **Find the matching release** from your project's releases
 3. **Download and verify** the sysext (SHA256 checksum at minimum)
-4. **Handle the ZFS readonly dance** with a cleanup trap:
+4. **Handle the ZFS readonly dance** with a cleanup trap. Trap on `EXIT INT TERM`, not just `EXIT`: a Ctrl-C or SIGTERM between unlocking and re-locking otherwise leaves `/usr` writable until the next reboot, which can corrupt a TrueNAS update or let a later write land on the live root. Validate the dataset name before acting on it, so a failed lookup never becomes `zfs set readonly=off ""`. Gate the re-lock on a flag so the trap is a no-op when `/usr` was never unlocked:
    ```bash
    USR_DATASET="$(zfs list -H -o name /usr)"
-   cleanup() { zfs set readonly=on "$USR_DATASET" 2>/dev/null; }
-   trap cleanup EXIT
-   zfs set readonly=off "$USR_DATASET"
+   [ -n "$USR_DATASET" ] || { echo "could not resolve the /usr ZFS dataset" >&2; exit 1; }
+   usr_was_writable=0
+   cleanup() { [ "$usr_was_writable" = 1 ] && zfs set readonly=on "$USR_DATASET" 2>/dev/null; }
+   trap cleanup EXIT INT TERM
+   zfs set readonly=off "$USR_DATASET"; usr_was_writable=1
    # ... install operations ...
-   zfs set readonly=on "$USR_DATASET"
+   zfs set readonly=on "$USR_DATASET"; usr_was_writable=0
    ```
 5. **Unmerge before writing** -- `systemd-sysext unmerge` before modifying files under `/usr`, because the overlayfs mount can interfere with the ZFS readonly toggle
 6. **Backup the original** before replacing any existing sysext
@@ -157,6 +159,27 @@ midclt call docker.update '{"nvidia": true}'
 ```
 
 Skipping this can leave Docker in a bad state where it references a driver that's been unmerged.
+
+### Interacting with the middleware (`midclt`)
+
+`midclt call <method>` is how install and boot scripts talk to TrueNAS. Two TrueNAS-specific traps:
+
+**TrueNAS does not ship `jq`; it does ship `python3`.** A script that pipes `midclt` output through `jq` will fail on a stock box. Parse output and build request payloads with python3 instead. Just as important, do not assemble JSON payloads by shell string interpolation (`"{\"uuid\":\"$x\"}"`) -- it breaks the moment a value contains a quote, brace, or backslash, and it is an injection vector if any value is user- or attacker-influenced. Pass the values to python3 as arguments and let `json.dumps` build the payload:
+
+```bash
+uuid="MIG-abc123"
+payload="$(python3 -c 'import json,sys; print(json.dumps({"values":{"uuid":sys.argv[1]}}))' "$uuid")"
+midclt call app.update "$app" "$payload"
+```
+
+**The middleware is not up yet at PREINIT time.** A PREINIT script runs before the middleware finishes starting, so early `midclt` calls fail with `Failed connection handshake`. Poll `midclt call system.ready` with a bounded timeout before any call that needs the middleware, and treat the timeout as non-fatal so a slow-starting middleware never blocks boot:
+
+```bash
+for _ in $(seq 1 5); do
+    midclt call system.ready 2>/dev/null | grep -q true && break
+    sleep 5
+done
+```
 
 ## Surviving reboots and TrueNAS updates
 
@@ -209,6 +232,11 @@ Install scripts should auto-detect the right ZFS data pool for persistent storag
 2. Existing config directory (if upgrading an existing install)
 3. Single data pool (if only one exists, use it)
 4. Interactive prompt (if multiple pools exist)
+
+Two constraints on wherever you land:
+
+- **It must be a ZFS data pool under `/mnt`, never `/usr`.** `/usr` is wiped on every TrueNAS update -- that is the whole reason the backup exists -- so a backup placed there disappears exactly when it is needed. If you accept an arbitrary `--persist-path`, reject paths under `/usr` outright.
+- **The install path must match where the PREINIT script looks at boot.** The boot script finds its backup by scanning a fixed location (typically a `/mnt/*/.config/<your-project>/` glob). If you let the user point persistent storage somewhere that glob doesn't cover, the install succeeds but the boot-time restore silently finds nothing, and the sysext vanishes on the next update. Constrain `--persist-path` to the shape the PREINIT script scans, rather than trusting any path.
 
 ## Version management
 
@@ -266,6 +294,7 @@ Community projects building sysexts and drivers for TrueNAS SCALE (as of 2026-05
 
 | Repo | Hardware | Description |
 |------|----------|-------------|
+| [coral-pcie-support](https://github.com/truenas-community-sysexts/coral-pcie-support) | Google Coral Edge TPU (PCIe/M.2) | Sysext driver package (gasket + apex kernel modules) with automated version tracking and CI/CD |
 | [hailo8-support](https://github.com/truenas-community-sysexts/hailo8-support) | Hailo-8 AI accelerator | Sysext driver package with automated version tracking and CI/CD |
 | [nvidia-mig-support](https://github.com/truenas-community-sysexts/nvidia-mig-support) | NVIDIA MIG (RTX PRO 6000 Blackwell) | Lightweight MIG-only sysext and optional full-driver replacement |
 
