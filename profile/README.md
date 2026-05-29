@@ -1,6 +1,6 @@
 # TrueNAS Community Sysexts
 
-Community-maintained [systemd-sysext](https://www.freedesktop.org/software/systemd/man/systemd-sysext.html) packages that extend [TrueNAS SCALE](https://www.truenas.com/truenas-scale/) with hardware support (drivers) and tooling (apps) that isn't shipped in the stock image — without modifying the immutable root filesystem.
+Community-maintained [systemd-sysext](https://www.freedesktop.org/software/systemd/man/systemd-sysext.html) packages that extend [TrueNAS SCALE](https://www.truenas.com/truenas-scale/) with hardware support (drivers) and tooling (apps) that isn't shipped in the stock image, without modifying the immutable root filesystem.
 
 Each sysext lives in its own repo with its own install scripts, build pipeline, and release cadence.
 
@@ -8,9 +8,9 @@ This org will not create artefacts that contain non-open code or binaries.  Howe
 
 ## Active sysexts provided by this org
 
-- **[coral-pcie-support](https://github.com/truenas-community-sysexts/coral-pcie-support)** — Google Coral PCIe TPU kernel modules (gasket + apex). Useful for Frigate hardware-accelerated object detection.
-- **[hailo8-support](https://github.com/truenas-community-sysexts/hailo8-support)** — Hailo-8 AI accelerator driver, firmware, and userspace tooling. Useful for Frigate hardware acceleration.
-- **[nvidia-mig-support](https://github.com/truenas-community-sysexts/nvidia-mig-support)** — Nvidia GPU sysext with MIG (Multi-Instance GPU) support for Truenas Nvidia driver or user defined drivers if needed
+- **[coral-pcie-support](https://github.com/truenas-community-sysexts/coral-pcie-support)** - Google Coral PCIe TPU kernel modules (gasket + apex). Useful for Frigate hardware-accelerated object detection.
+- **[hailo8-support](https://github.com/truenas-community-sysexts/hailo8-support)** - Hailo-8 AI accelerator driver, firmware, and userspace tooling. Useful for Frigate hardware acceleration.
+- **[nvidia-mig-support](https://github.com/truenas-community-sysexts/nvidia-mig-support)** - Nvidia GPU sysext with MIG (Multi-Instance GPU) support for Truenas Nvidia driver or user defined drivers if needed
 
 ## Related Projects
 

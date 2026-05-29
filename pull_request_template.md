@@ -24,7 +24,7 @@ Describe what you actually ran. For installer / kernel-module / runtime changes,
 Examples of useful entries:
 - Dispatched build.yml for TrueNAS 25.10.3.1 / HailoRT 4.21.0; installed the resulting sysext on a Frigate host; verified `hailortcli fw-control identify` returns the expected firmware.
 - Ran install.sh --dry-run on a multi-pool host and confirmed it errored cleanly rather than picking a pool silently.
-- Uninstalled with Frigate stopped, then with Frigate running — second case now fails fast as intended.
+- Uninstalled with Frigate stopped, then with Frigate running; second case now fails fast as intended.
 
 If you couldn't test something on real hardware, say so explicitly below.
 -->
@@ -36,7 +36,7 @@ If you couldn't test something on real hardware, say so explicitly below.
 
 ## Scope check
 
-- [ ] The diff is limited to the change described in the summary — no drive-by reformatting, untouched-code refactors, or new abstractions that aren't load-bearing for this PR.
+- [ ] The diff is limited to the change described in the summary: no drive-by reformatting, untouched-code refactors, or new abstractions that aren't load-bearing for this PR.
 
 ## AI assistance (optional)
 
@@ -48,5 +48,5 @@ Examples:
 - "Cursor autocomplete only."
 - "All hand-written."
 
-This is informational — not a gate.
+This is informational, not a gate.
 -->
