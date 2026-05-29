@@ -20,11 +20,11 @@ Anyone building a sysext for TrueNAS SCALE -- whether it's an NVIDIA driver, an 
 TrueNAS does not use the standard `systemd-sysext merge` path (`/var/lib/extensions/`). The working pattern is:
 
 1. Place `<name>.raw` at `/usr/share/truenas/sysext-extensions/<name>.raw`
-2. Symlink into `/run/extensions/<name>.raw`
+2. Symlink it into a directory `systemd-sysext` scans -- either `/etc/extensions/<name>.raw` (persistent) or `/run/extensions/<name>.raw` (tmpfs)
 3. `systemd-sysext refresh`
 4. `ldconfig`
 
-The `/run/extensions/` symlink lives on tmpfs and disappears on every reboot. Any persistence mechanism must recreate it.
+Both `/etc/extensions/` and `/run/extensions/` are scanned by `systemd-sysext`, and projects in this org use both. nvidia-mig-support symlinks into `/etc/extensions/` (the symlink survives reboots). hailo8-support and coral-pcie-support symlink into `/run/extensions/`, which lives on tmpfs and disappears on every reboot -- their PREINIT script recreates it on each boot. If you use `/run/extensions/`, your persistence mechanism must recreate the symlink.
 
 ### The extension-release file
 
@@ -114,7 +114,7 @@ TrueNAS is based on Debian. The kernel modules you compile must be linked agains
 - TrueNAS based on Debian Bookworm: use `ubuntu-22.04`
 - TrueNAS based on Debian Trixie: use `ubuntu-24.04`
 
-You can resolve this dynamically by fetching TrueNAS's GITMANIFEST for the target version, reading the Debian release, and mapping to a runner. Hard-coding a runner works but will silently break when TrueNAS rebases to a new Debian.
+You can resolve this dynamically by fetching TrueNAS's GITMANIFEST for the target version, reading the Debian release, and mapping to a runner. Hard-coding a runner works but will silently break when TrueNAS rebases to a new Debian -- unless the runner choice is driven by a build requirement rather than the target's Debian base. nvidia-mig-support deliberately hardcodes `ubuntu-24.04` because its build needs GCC 14 regardless of the target kernel; that tradeoff is documented in its `docs/build-ci-notes.md`.
 
 ### Compiler compatibility
 
@@ -126,7 +126,7 @@ Newer TrueNAS kernels may use build flags that older GCC versions don't support 
 
 A good install script should:
 
-1. **Auto-detect the TrueNAS version** via `midclt call system.info | jq -r '.version'`
+1. **Auto-detect the TrueNAS version** via `midclt call system.info | python3 -c 'import sys, json; print(json.load(sys.stdin)["version"])'` (python3 ships with TrueNAS SCALE; `jq` does not, so prefer python3 for JSON parsing)
 2. **Find the matching release** from your project's releases
 3. **Download and verify** the sysext (SHA256 checksum at minimum)
 4. **Handle the ZFS readonly dance** with a cleanup trap:
@@ -197,7 +197,7 @@ PREINIT runs after ZFS pools are mounted but before the middleware starts apps. 
 
 ### Why not systemd WantedBy
 
-Sysext-shipped systemd units with `[Install] WantedBy=multi-user.target` are silently skipped at boot on TrueNAS. No journal entries, no errors. The reliable pattern is the PREINIT approach described above, which calls `systemctl start <unit>` explicitly.
+Sysext-shipped systemd units with `[Install] WantedBy=multi-user.target` are silently skipped at boot on TrueNAS. No journal entries, no errors. The reliable pattern is the PREINIT approach described above, which does the work explicitly -- either `systemctl start <unit>` (as nvidia-mig-support does for its MIG setup service) or loading kernel modules directly with `insmod` (as hailo8-support and coral-pcie-support do).
 
 For more on configuring PREINIT/POSTINIT scripts via the TrueNAS UI (rather than `midclt`), see the official [Init/Shutdown Scripts documentation](https://www.truenas.com/docs/scale/scaletutorials/systemsettings/advanced/manageinitshutdownscale/).
 
@@ -246,7 +246,7 @@ Each release should carry everything needed for installation. An install script 
 - The sysext `.raw` image
 - Checksum files (`.sha256`)
 - The install script itself (as a release asset)
-- Any metadata the install script needs (e.g., firmware checksums)
+- Any metadata the install script needs, shipped as per-release assets rather than tracked in the source-of-truth versions file. For example, hailo8-support computes the firmware checksum at build time and uploads it as a `firmware.sha256` release asset, so the install script can verify firmware without consulting `main` or `tracked-versions.json`.
 
 ### Human-gated promotion
 
@@ -260,7 +260,7 @@ This prevents an automated build from pushing a broken driver to users who rely 
 
 ## Ecosystem directory
 
-Community projects building sysexts and drivers for TrueNAS SCALE (as of 2026-05-15):
+Community projects building sysexts and drivers for TrueNAS SCALE (as of 2026-05-29):
 
 ### truenas-community-sysexts org
 
