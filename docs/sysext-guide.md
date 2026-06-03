@@ -24,7 +24,17 @@ TrueNAS does not use the standard `systemd-sysext merge` path (`/var/lib/extensi
 3. `systemd-sysext refresh`
 4. `ldconfig`
 
-Both `/etc/extensions/` and `/run/extensions/` are scanned by `systemd-sysext`, and projects in this org use both. nvidia-mig-support symlinks into `/etc/extensions/` (the symlink survives reboots). hailo8-support and coral-pcie-support symlink into `/run/extensions/`, which lives on tmpfs and disappears on every reboot -- their PREINIT script recreates it on each boot. If you use `/run/extensions/`, your persistence mechanism must recreate the symlink.
+Both `/etc/extensions/` and `/run/extensions/` are scanned by `systemd-sysext`, and projects in this org use both. nvidia-mig-support symlinks into `/etc/extensions/`; hailo8-support and coral-pcie-support symlink into `/run/extensions/`. The two differ in how long the symlink lasts, and the difference matters more than it first appears -- see [Search-path persistence: reboots vs updates](#search-path-persistence-reboots-vs-updates) below.
+
+### Search-path persistence: reboots vs updates
+
+The three locations involved in activation persist very differently, and the differences are TrueNAS-specific. Getting this wrong produces a sysext that works for months and then silently disappears the first time TrueNAS updates.
+
+- **`/usr/share/truenas/sysext-extensions/`** is not a `systemd-sysext` search path at all. It is just a storage location on the boot pool's `/usr` dataset. `/usr` is replaced wholesale on every TrueNAS update (the new boot environment is a fresh clone), so anything stored here is gone after an update. TrueNAS's own nvidia sysext stores its `.raw` here and symlinks it into a real search path at runtime.
+- **`/run/extensions/`** is tmpfs. It is cleared on every reboot, so a symlink here must be recreated on each boot. That looks like a drawback but is actually the safer default: because you are forced to recreate it every boot, an update can never leave you with a stale or missing activation.
+- **`/etc/extensions/`** is on a persistent ZFS dataset, so a symlink here survives reboots. It does **not** survive a TrueNAS update. The installer does not clone the `etc` dataset from the old boot environment; it creates a brand-new empty `etc` dataset from the new rootfs and rsyncs only `etc/hostid` and `etc/machine-id` across. In [truenas/scale-build](https://github.com/truenas/scale-build), `truenas_install/fhs.py` marks `etc` with `snap` but not `clone` (only `audit`, `data`, `home`, `root`, and `var/log` are cloned), and the rsync step in `truenas_install/__main__.py` carries those two files only. Any symlink you placed in `/etc/extensions/` is silently destroyed by an update.
+
+The practical consequence: **do not rely on any activation symlink surviving an update, regardless of which search path you use.** Every sysext needs a boot-time (PREINIT) step that re-establishes its activation, because the update wipes either the `.raw` (if it was in `/usr`), the symlink (if it was in `/etc/extensions/`), or the whole tmpfs (if it was in `/run/extensions/`). The `/etc/extensions/` case is the easiest to get wrong: a symlink that nothing recreates works across every reboot and then vanishes the first time TrueNAS updates, which is invisible until an unrelated update triggers it.
 
 ### The extension-release file
 
@@ -38,7 +48,7 @@ Every sysext must include `usr/lib/extension-release.d/extension-release.<name>`
 | `/lib` | No | Symlink to `/usr/lib`, on its own readonly ZFS dataset |
 | `/lib/modules` | No | Part of the `/lib` dataset |
 | `/lib/firmware` | No | Part of the `/lib` dataset |
-| `/etc/extensions` | Yes | Symlinks here are picked up by `systemd-sysext` |
+| `/etc/extensions` | Yes | Symlinks here are picked up by `systemd-sysext`. Survives reboots, but the dataset is recreated fresh on TrueNAS updates (see [Search-path persistence](#search-path-persistence-reboots-vs-updates)) |
 | `/run/extensions` | Yes (tmpfs) | Cleared on reboot |
 | `/mnt/<pool>` | Yes | ZFS data pools, persistent across updates |
 
@@ -213,6 +223,20 @@ This is the approach most community projects have settled on:
    - Loads kernel modules
 
 The PREINIT DB entry itself survives TrueNAS updates because it's stored in the middleware database, not on the filesystem.
+
+### Additive sysexts can skip the boot pool entirely
+
+The pattern above copies the `.raw` into `/usr/share/truenas/sysext-extensions/`, which means unlocking and re-locking the readonly `/usr` dataset on every install and on every restore. An **additive** sysext, one that does not replace a stock TrueNAS sysext, does not need the boot-pool copy at all.
+
+Because `/usr/share/truenas/sysext-extensions/` is only a storage location and not a search path (see [Search-path persistence](#search-path-persistence-reboots-vs-updates)), the activation symlink can point straight at the `.raw` on the data pool:
+
+1. Store the `.raw` only on the data pool: `/mnt/<pool>/.config/<your-project>/<name>.raw`
+2. On each boot, the PREINIT symlinks `/run/extensions/<name>.raw` directly to that data-pool path
+3. `systemd-sysext refresh` + `ldconfig`
+
+This removes every write to the boot pool: no `zfs set readonly=off` on `/usr`, no copy into `/usr`, and no checksum-compare-and-restore step (there is only one copy, so nothing can drift across an update). The PREINIT shrinks to roughly one `ln -sf` plus a refresh, and `systemd-sysext` loop-mounts the squashfs straight off the data-pool path. nvidia-mig-support's lightweight MIG sysext already keeps its `.raw` only on the data pool this way.
+
+This only applies to additive sysexts. If your sysext **replaces** a stock one (same `extension-release` name, e.g. a full nvidia driver replacing TrueNAS's `nvidia.raw`), two sysexts cannot both publish that name, so you still need the swap-and-restore-in-`/usr` approach described in [NVIDIA-specific: toggle via middleware](#nvidia-specific-toggle-via-middleware).
 
 ### Why PREINIT and not POSTINIT
 
