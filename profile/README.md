@@ -13,6 +13,7 @@ This org will not create or distribute artefacts that contain non-open code or b
 - **[hailo8-support](https://github.com/truenas-community-sysexts/hailo8-support)** - Hailo-8 AI accelerator driver, firmware, and userspace tooling. Useful for Frigate hardware acceleration.
 - **[nvidia-driver-support](https://github.com/truenas-community-sysexts/nvidia-driver-support)** - Install of multiple legacy and newer drivers in both open and proprietary flavours.
 - **[nvidia-mig-support](https://github.com/truenas-community-sysexts/nvidia-mig-support)** - Layer nvidia MIG (Multi-Instance GPU) support for native Truenas Nvidia driver or other supported drivers.
+- **[prometheus-exporters](https://github.com/truenas-community-sysexts/prometheus-exporters)** - Prometheus exporters (node, smartctl, nut, blackbox, snmp, ipmi) as systemd services, opt-in per exporter. Bundles FreeIPMI for ipmi.
 
 ## Related Projects
 
