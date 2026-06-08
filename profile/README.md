@@ -11,7 +11,7 @@ This org will not create artefacts that contain non-open code or binaries.  Howe
 - **[coral-pcie-support](https://github.com/truenas-community-sysexts/coral-pcie-support)** - Google Coral PCIe TPU kernel modules (gasket + apex). Useful for Frigate hardware-accelerated object detection.
 - **[hailo8-support](https://github.com/truenas-community-sysexts/hailo8-support)** - Hailo-8 AI accelerator driver, firmware, and userspace tooling. Useful for Frigate hardware acceleration.
 - **[nvidia-driver-support](https://github.com/truenas-community-sysexts/nvidia-driver-support)** - Install of multiple legacy and newer drivers in both open and proprietary flavours.
-- **[nvidia-mig-support](https://github.com/truenas-community-sysexts/nvidia-mig-support)** - Nvidia GPU sysext with MIG (Multi-Instance GPU) support for Truenas Nvidia driver or user defined drivers if needed.
+- **[nvidia-mig-support](https://github.com/truenas-community-sysexts/nvidia-mig-support)** - Layer nvidia MIG (Multi-Instance GPU) support for native Truenas Nvidia driver or other supported drivers.
 
 ## Related Projects
 
