@@ -4,7 +4,7 @@ Community-maintained [systemd-sysext](https://www.freedesktop.org/software/syste
 
 Each sysext lives in its own repo with its own install scripts, build pipeline, and release cadence.
 
-This org will not create artefacts that contain non-open code or binaries.  However it will let you provide binaries as per your license agreement with any such vendor.
+This org will not create or distribute artefacts that contain non-open code or binaries.  However install scritps download automatically as permitted or let you provide binaries as per your license agreement with any vendor.
 
 ## Active sysexts provided by this org
 
