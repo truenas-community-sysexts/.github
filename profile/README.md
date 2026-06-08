@@ -8,6 +8,7 @@ This org will not create or distribute artefacts that contain non-open code or b
 
 ## Active sysexts provided by this org
 
+- **[cli-tools](https://github.com/truenas-community-sysexts/cli-tools)** - Commonly requested CLI tools not included in TrueNas >25.x .
 - **[coral-pcie-support](https://github.com/truenas-community-sysexts/coral-pcie-support)** - Google Coral PCIe TPU kernel modules (gasket + apex). Useful for Frigate hardware-accelerated object detection.
 - **[hailo8-support](https://github.com/truenas-community-sysexts/hailo8-support)** - Hailo-8 AI accelerator driver, firmware, and userspace tooling. Useful for Frigate hardware acceleration.
 - **[nvidia-driver-support](https://github.com/truenas-community-sysexts/nvidia-driver-support)** - Install of multiple legacy and newer drivers in both open and proprietary flavours.
