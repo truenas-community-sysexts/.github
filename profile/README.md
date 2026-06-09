@@ -4,7 +4,11 @@ Community-maintained [systemd-sysext](https://www.freedesktop.org/software/syste
 
 Each sysext lives in its own repo with its own install scripts, build pipeline, and release cadence.
 
-This org will not create or distribute artefacts that contain non-open code or binaries.  However install scritps download automatically as permitted or let you provide binaries as per your license agreement with any vendor.
+The goal is to have a common tooling and approach so multiple community sysexts can be installed at any time.  We welcome contributions from all. 
+
+This org will not create or distribute artefacts that contain non-open code or binaries.  If a sysext requires proriteray files then the nstall scripts will download neeed files automatically as permitted by the license you have with the vendor or let you provide binaries as per your license agreement with any vendor.
+
+This project is not affilated with, or endorsed by ixsystems/truenas in anyway.
 
 ## Active sysexts provided by this org
 
