@@ -1,4 +1,4 @@
-# TrueNAS Community Sysexts
+# What are community sysexts?
 
 Community-maintained [systemd-sysext](https://www.freedesktop.org/software/systemd/man/systemd-sysext.html) packages that extend [TrueNAS](https://www.truenas.com/) with hardware support (drivers) and tooling (apps) that isn't shipped in the stock image, without modifying the immutable root filesystem. This allows us to support drivers and some application types to appear as installed without needing the system to have ever been put in developer mode. Its simple to remove sysexts in an emergency by deleting their symlinks. Though each sysext provided by this org has install and unistall tooling via scripts.
 
