@@ -23,9 +23,9 @@ This project is not affilated with, or endorsed by ixsystems/truenas in anyway.
 
 ### NVIDIA GPU driver sysexts:
 
-- [zzzhouuu/truenas-nvidia-drivers](https://github.com/zzzhouuu/truenas-nvidia-drivers) - Legacy GPU driver build framework & pre-built artifacts (GTX 700/900/10-series, Quadro M/P, Tesla M/P)
+- [zzzhouuu/truenas-nvidia-drivers](https://github.com/zzzhouuu/truenas-nvidia-drivers) - Legacy GPU driver build framework (GTX 700/900/10-series, Quadro M/P, Tesla M/P)
 - [biohazardious/truenas-nvidia-driver-updater](https://github.com/biohazardious/truenas-nvidia-driver-updater) - Docker-automated sysext builder using a filesystem-diff approach
-- [binary-person/truenas-nvidia-raw-builder](https://github.com/binary-person/truenas-nvidia-raw-builder) - Interactive install script with pre-built releases for multiple TrueNAS/NVIDIA version combos
+- [binary-person/truenas-nvidia-raw-builder](https://github.com/binary-person/truenas-nvidia-raw-builder) - Interactive script with pre-built releases for multiple TrueNAS/NVIDIA version combos
 - [oxc/truenas-nvidia-legacy](https://github.com/oxc/truenas-nvidia-legacy) - Dockerfile-based legacy driver builder with good depmod handling
 - [Renari/truenas-legacy-nvidia-driver](https://github.com/Renari/truenas-legacy-nvidia-driver) - Minimal wrapper around truenas/scale-build for legacy nvidia.raw via CI
 - [jbaznik/truenas-nvidia-drivers](https://github.com/jbaznik/truenas-nvidia-drivers) - Early legacy driver project with pre-built artifacts
