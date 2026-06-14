@@ -14,7 +14,8 @@ This project is not affilated with, or endorsed by ixsystems/truenas in anyway.
 
 - **[cli-tools](https://github.com/truenas-community-sysexts/cli-tools)** - Commonly requested CLI tools not included in TrueNas >25.x .
 - **[coral-pcie-support](https://github.com/truenas-community-sysexts/coral-pcie-support)** - Google Coral PCIe TPU kernel modules (gasket/apex). Useful for Frigate hardware acceleration.
-- **[hailo8-support](https://github.com/truenas-community-sysexts/hailo8-support)** - Hailo-8 AI accelerator driver and userspace tooling. Useful for Frigate hardware acceleration.
+- **[hailo8-support](https://github.com/truenas-community-sysexts/hailo8-support)** - Hailo-8 PCIe AI accelerator driver and userspace tooling. Useful for Frigate hardware acceleration.
+- - **[memryx-mx3-support](https://github.com/truenas-community-sysexts/memryx-mx3-support)** - MemryX MX3 PCIe AI accelerator driver and userspace tooling. Useful for Frigate hardware acceleration.
 - **[nvidia-driver-support](https://github.com/truenas-community-sysexts/nvidia-driver-support)** - Install of multiple legacy and newer drivers in both open and proprietary flavours.
 - **[nvidia-mig-support](https://github.com/truenas-community-sysexts/nvidia-mig-support)** - Enable nvidia MIG (Multi-Instance GPU) support for native TrueNAS Nvidia driver or later.
 - **[prometheus-exporters](https://github.com/truenas-community-sysexts/prometheus-exporters)** - Prometheus exporters (node, smartctl, nut, blackbox, snmp, ipmi) as systemd services.
