@@ -12,7 +12,7 @@ This project is not affilated with, or endorsed by ixsystems/truenas in anyway.
 
 ## Active sysexts provided by this org
 
-- **[cli-tools](https://github.com/truenas-community-sysexts/cli-tools)** - Commonly requested CLI tools not included in TrueNas >25.x .
+- **[cli-tools](https://github.com/truenas-community-sysexts/cli-tools)** - Commonly requested CLI tools not included in TrueNas >25.x (btop,nmap, iftop, etc).
 - **[coral-pcie-support](https://github.com/truenas-community-sysexts/coral-pcie-support)** - Google Coral PCIe TPU kernel modules (gasket/apex). Useful for Frigate hardware acceleration.
 - **[hailo8-support](https://github.com/truenas-community-sysexts/hailo8-support)** - Hailo-8 PCIe AI accelerator driver and userspace. Useful for Frigate hardware acceleration.
 - **[memryx-mx3-support](https://github.com/truenas-community-sysexts/memryx-mx3-support)** - MemryX MX3 PCIe AI accelerator driver and userspace. Useful for Frigate hardware acceleration.
