@@ -43,6 +43,8 @@ If you don't have access to a repo's target hardware, that's fine, you can still
 
 The auto-build workflows generally tag a release as un-promoted ("not Latest") and open a hardware-test issue when a daily check dispatches a build. That same flow is available manually via `workflow_dispatch` for testing your branch end-to-end without touching `Latest`.
 
+Test reports are contributions too: if you own target hardware, commenting on a repo's open `hardware-test` issues with your results is one of the most useful things you can do here, no code required.
+
 ## Review process
 
 - All changes go through a PR. Even maintainers don't push directly to default branches on these repos.
