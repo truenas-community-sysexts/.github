@@ -39,7 +39,7 @@ If a reviewer says "this looks AI-generated and you don't seem to know why X is 
 
 Most of these repos build sysexts that load kernel drivers or modify boot-time state. "Builds locally" and "CI passes" are necessary but not sufficient for changes that affect the install path, the kernel module, or runtime behavior: those need to be exercised on hardware.
 
-If you don't have access to the target hardware (an Nvidia GPU with MIG support, a Hailo-8 accelerator, etc.), that's fine, you can still contribute documentation fixes, CI improvements, and discussion. For driver/install changes, either find a way to test or be very explicit in the PR that you couldn't, and what specifically wasn't exercised. Maintainers may hold those PRs until someone can verify on hardware.
+If you don't have access to a repo's target hardware, that's fine, you can still contribute documentation fixes, CI improvements, and discussion. For driver/install changes, either find a way to test or be very explicit in the PR that you couldn't, and what specifically wasn't exercised. Maintainers may hold those PRs until someone can verify on hardware.
 
 The auto-build workflows generally tag a release as un-promoted ("not Latest") and open a hardware-test issue when a daily check dispatches a build. That same flow is available manually via `workflow_dispatch` for testing your branch end-to-end without touching `Latest`.
 
@@ -52,7 +52,7 @@ The auto-build workflows generally tag a release as un-promoted ("not Latest") a
 
 ## Reporting bugs and requesting features
 
-Use the issue tracker on the specific repo (e.g., `truenas-community-sysexts/hailo8-support/issues`). Include:
+Use the issue tracker on the repo the bug is in. Include:
 
 - What you ran and what happened.
 - What you expected to happen instead.
