@@ -13,7 +13,7 @@ your fork (feature branch)  --PR-->  dev  --maintainer sync PR-->  main  -->  bu
 ```
 
 1. **Fork the repo** and create a branch in your fork from our **`dev`** branch, not `main`.
-2. **Open your PR against `dev`.** GitHub pre-selects `main` as the base for PRs from forks, so change the base to `dev` before you submit. A PR aimed at `main` will be retargeted or you will be asked to retarget it.
+2. **Open your PR against `dev`.** GitHub pre-selects `main` as the base for PRs from forks, so change the base to `dev` before you submit. A PR from a fork that targets `main` is closed automatically with a note asking you to open it against `dev` instead (it is not retargeted for you, since a fork branch cut from an older `main` could otherwise pull in unrelated history).
 3. **CI runs on your PR** (lint, shellcheck, actionlint and the repo's unit tests, depending on the files touched). For a first-time contributor, a maintainer has to approve the workflow run before it starts.
 4. **A maintainer reviews and merges it into `dev`.**
 5. **Maintainers sync `dev` into `main`** with a pull request, merged as a merge commit so both branches keep a shared history. Contributors never open PRs into `main`.
