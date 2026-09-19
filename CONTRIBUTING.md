@@ -58,7 +58,19 @@ Most of these repos build sysexts that load kernel drivers or modify boot-time s
 
 If you don't have access to a repo's target hardware, that's fine, you can still contribute documentation fixes, CI improvements, and discussion. For driver/install changes, either find a way to test or be very explicit in the PR that you couldn't, and what specifically wasn't exercised. Maintainers may hold those PRs until someone can verify on hardware.
 
-The auto-build workflows generally tag a release as un-promoted ("not Latest") and open a hardware-test issue when a daily check dispatches a build. That same flow is available manually via `workflow_dispatch` for testing your branch end-to-end without touching `Latest`.
+### How a build reaches users: per-train sign-off
+
+Every build is published as a **pre-release** and opens a hardware-test issue per supported TrueNAS train (25.10, and 26 for every 26.x including betas). Closing a train's issue as **completed** is the sign-off: it records that build as approved for that train, and only then does it install on that train's systems. Closing as **not planned** rejects it, and it never installs.
+
+A few consequences worth knowing:
+
+- **A test on one train does not approve the other.** A pass on TrueNAS 26 does not put a build on 25.10 systems, because the kernel, base system and TrueNAS internals differ.
+- **Nothing untested installs anywhere**, stable or beta. If nothing is approved for a system's train yet, the installer stops and names the waiting test issue rather than installing something unverified. Releases approved before this scheme count for every train.
+- **The installer is gated too.** `get.sh` runs the approved release's own install scripts, not the latest code on `main`, so script changes are hardware-tested like everything else.
+- **There is no way to publish straight to users.** The manual "publish to Latest" override was removed on purpose.
+- Testing your own branch end to end is still easy: dispatch the build workflow, then install the resulting pre-release with `get.sh --release=TAG`, which pins it and skips the approval check.
+
+[docs/how-releases-work.md](docs/how-releases-work.md) explains the same thing for users, and is the page to point people at when they ask why an install refused.
 
 Test reports are contributions too: if you own target hardware, commenting on a repo's open `hardware-test` issues with your results is one of the most useful things you can do here, no code required.
 
