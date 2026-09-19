@@ -1,6 +1,8 @@
 <!--
 Thanks for contributing. A few quick checks before you submit.
 
+Target branch: this PR should be based on `dev`, not `main`. GitHub pre-selects `main` for PRs from forks, so check the base branch above. Maintainers move `dev` into `main`.
+
 If this is a typo fix or one-line obvious cleanup, you can delete most of this template.
 
 Otherwise, please fill in the sections below. They map directly to the contributor guide in this org's .github repo (CONTRIBUTING.md).
@@ -29,6 +31,7 @@ Examples of useful entries:
 If you couldn't test something on real hardware, say so explicitly below.
 -->
 
+- [ ] This PR targets `dev`
 - [ ] CI is green (lint / actionlint / shellcheck)
 - [ ] Built the sysext locally or via `workflow_dispatch` (link the run if applicable):
 - [ ] Exercised the affected install / uninstall / runtime path on real hardware
