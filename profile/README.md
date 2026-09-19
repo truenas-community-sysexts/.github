@@ -22,7 +22,7 @@ This project is not affilated with, or endorsed by ixsystems/truenas in anyway.
 
 ## Help us test
 
-Every driver build needs a pass on real hardware before it gets promoted to Latest, and the maintainers only own so many devices. If you run TrueNAS with any of the hardware above, you can help without writing a line of code: each new build automatically opens a `hardware-test` issue in its repo with instructions, and a comment confirming it works (or doesn't) on your box is what lets the release go out to everyone. Coral PCIe testers are especially wanted, we currently have no confirmed users there.
+Every driver build needs a pass on real hardware before it gets promoted to Latest, and the maintainers only own so many devices. If you run TrueNAS with any of the hardware above, you can help without writing a line of code: each new build automatically opens a `hardware-test` issue in its repo with instructions, and a comment confirming it works (or doesn't) on your box is what lets the release go out to everyone. 
 
 ## Related Projects
 
