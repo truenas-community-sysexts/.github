@@ -2,7 +2,24 @@
 
 Thanks for taking the time to contribute. These repos build systemd-sysext packages that run on real TrueNAS hosts in real homelabs, and bugs in install scripts, kernel modules, or sysext layouts can leave someone's NAS in a state they have to recover from manually. That shapes most of the guidance below.
 
-This file is the org-wide default. Individual repos may add their own `CONTRIBUTING.md` with extra repo-specific notes; treat that as additive, not a replacement.
+These rules are the same for every repo in the org. This file is the single contributing guide: repos do not carry their own `CONTRIBUTING.md` (on GitHub a repo-level file would replace this one, not add to it). Repo-specific build and test details live in each repo's `docs/`.
+
+## How changes flow: your fork > our `dev` > our `main`
+
+Every change reaches a release the same way:
+
+```
+your fork (feature branch)  --PR-->  dev  --maintainer sync PR-->  main  -->  builds and releases
+```
+
+1. **Fork the repo** and create a branch in your fork from our **`dev`** branch, not `main`.
+2. **Open your PR against `dev`.** GitHub pre-selects `main` as the base for PRs from forks, so change the base to `dev` before you submit. A PR aimed at `main` will be retargeted or you will be asked to retarget it.
+3. **CI runs on your PR** (lint, shellcheck, actionlint and the repo's unit tests, depending on the files touched). For a first-time contributor, a maintainer has to approve the workflow run before it starts.
+4. **A maintainer reviews and merges it into `dev`.**
+5. **Maintainers sync `dev` into `main`** with a pull request, merged as a merge commit so both branches keep a shared history. Contributors never open PRs into `main`.
+6. **`main` is what ships.** The scheduled checks and builds run from `main`, and the install one-liners serve the Latest release, which is built from `main` and only promoted after a hardware-test sign-off (see Hardware testing below).
+
+Automated commits (version tracking, the supported-versions tables, the NVIDIA driver catalog) are made by our CI app directly on `main`; maintainers sync `main` back into `dev` to keep them level.
 
 ## Before opening a PR
 
@@ -47,10 +64,11 @@ Test reports are contributions too: if you own target hardware, commenting on a 
 
 ## Review process
 
-- All changes go through a PR. Even maintainers don't push directly to default branches on these repos.
-- Maintainers may merge their own PRs once CI is green and the change is straightforward.
+- All changes go through a PR. `main` and `dev` are protected in every repo: no direct pushes, no force-pushes, no deletion. That applies to maintainers too.
+- Only the org owner can override that protection, and only by hand when merging a PR.
+- Maintainers may merge their own PRs into `dev` once CI is green and the change is straightforward.
 - PRs from non-maintainers will get at least one maintainer review before merge.
-- Reviewers may ask for force-pushes to clean up history (squash fixup commits, drop drive-by changes) before merging.
+- Reviewers may ask you to force-push *your own branch* to clean up history (squash fixup commits, drop drive-by changes) before merging.
 
 ## Reporting bugs and requesting features
 
