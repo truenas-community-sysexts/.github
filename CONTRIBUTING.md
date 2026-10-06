@@ -17,7 +17,7 @@ your fork (feature branch)  --PR-->  dev  --maintainer sync PR-->  main  -->  bu
 3. **CI runs on your PR** (lint, shellcheck, actionlint and the repo's unit tests, depending on the files touched). For a first-time contributor, a maintainer has to approve the workflow run before it starts.
 4. **A maintainer reviews and merges it into `dev`.**
 5. **Maintainers sync `dev` into `main`** with a pull request, merged as a merge commit so both branches keep a shared history. Contributors never open PRs into `main`.
-6. **`main` is what ships.** The scheduled checks and builds run from `main`, and the install one-liners serve the Latest release, which is built from `main` and only promoted after a hardware-test sign-off (see Hardware testing below).
+6. **`main` is what ships.** The scheduled checks and builds run from `main`, and `get.sh` installs the newest release approved for the box's train, built from `main` and only promoted after a hardware-test sign-off (see Hardware testing below).
 
 Automated commits (version tracking, the supported-versions tables, the NVIDIA driver catalog) are made by our CI app directly on `main`; maintainers sync `main` back into `dev` to keep them level.
 
@@ -60,7 +60,7 @@ If you don't have access to a repo's target hardware, that's fine, you can still
 
 ### How a build reaches users: per-train sign-off
 
-Every build is published as a **pre-release** and opens a hardware-test issue per supported TrueNAS train (25.10, and 27 for every 27.x including RCs; TrueNAS 26 was renamed 27 at its first RC). Closing a train's issue as **completed** is the sign-off: it records that build as approved for that train, and only then does it install on that train's systems. Closing as **not planned** rejects it, and it never installs.
+Every build is published as a **pre-release** and opens a hardware-test issue per supported TrueNAS train (25.10, and 27 for every 27.x including RCs; TrueNAS 26 was renamed 27 at its first RC). Closing a train's issue as **completed** is the sign-off: it records that build as approved for that train, makes it a full release (whichever train it was tested on), and only then does it install on that train's systems. GitHub's **Latest** is the newest signed-off build on any train. Closing as **not planned** rejects it, and it never installs.
 
 A few consequences worth knowing:
 
