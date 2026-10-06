@@ -11,7 +11,7 @@ curl -fsSL https://raw.githubusercontent.com/truenas-community-sysexts/<repo>/ma
 ## The short version
 
 - A build is only installed after somebody has run it on real hardware and said it worked.
-- "Worked" is recorded per TrueNAS train, so a pass on TrueNAS 26 does not put that build on 25.10 systems.
+- "Worked" is recorded per TrueNAS train, so a pass on TrueNAS 27 does not put that build on 25.10 systems.
 - If nothing has been signed off for your system yet, the installer stops and tells you what it is waiting for. It does not install something untested.
 
 ## Trains
@@ -19,7 +19,7 @@ curl -fsSL https://raw.githubusercontent.com/truenas-community-sysexts/<repo>/ma
 A "train" is a TrueNAS release line:
 
 - **25.10**, **25.04**: the version's first two parts.
-- **26**: from TrueNAS 26 onward the major version alone is the train, so every 26.x release, betas included, is train 26.
+- **27**: from TrueNAS 26 onward the major version alone is the train, so every 27.x release, RCs included, is train 27. TrueNAS 26 was renamed 27 at its first release candidate (27.0.0-RC.1), so 27 is a new train: sign-offs from the 26 betas do not carry over to it.
 
 Trains matter because TrueNAS changes between them in ways that affect these packages: different kernels, different system libraries, and different internal APIs that the install scripts use.
 
@@ -47,7 +47,7 @@ Every new build is published as a **pre-release** and opens a hardware-test issu
 
 So:
 
-- A sign-off on TrueNAS 26 makes that build available to 26 systems. 25.10 systems keep whatever was last approved for 25.10.
+- A sign-off on TrueNAS 27 makes that build available to 27 systems. 25.10 systems keep whatever was last approved for 25.10.
 - Builds that were promoted before this scheme started count for every train. Nothing that used to install stopped installing.
 - A build rejected during testing (its issue closed as "not planned") is never installed by anyone.
 
