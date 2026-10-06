@@ -42,12 +42,14 @@ curl -fsSL .../main/get.sh | sudo bash -s -- --release=TAG
 Every new build is published as a **pre-release** and opens a hardware-test issue. Closing that issue as completed is the sign-off, and it records approval for that build's train in the release notes, as a line like:
 
 ```
-<!-- verified-train: 26 -->
+<!-- verified-train: 27 -->
 ```
 
 So:
 
 - A sign-off on TrueNAS 27 makes that build available to 27 systems. 25.10 systems keep whatever was last approved for 25.10.
+- A signed-off build becomes a full release, whether it was tested on a stable train or a preview (beta/RC) one. A stable system still never installs a preview build.
+- GitHub's **Latest** badge marks the newest signed-off build on any train. The installers never select by it; they pick the newest build approved for your train.
 - Builds that were promoted before this scheme started count for every train. Nothing that used to install stopped installing.
 - A build rejected during testing (its issue closed as "not planned") is never installed by anyone.
 
