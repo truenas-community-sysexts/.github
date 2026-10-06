@@ -60,11 +60,11 @@ If you don't have access to a repo's target hardware, that's fine, you can still
 
 ### How a build reaches users: per-train sign-off
 
-Every build is published as a **pre-release** and opens a hardware-test issue per supported TrueNAS train (25.10, and 26 for every 26.x including betas). Closing a train's issue as **completed** is the sign-off: it records that build as approved for that train, and only then does it install on that train's systems. Closing as **not planned** rejects it, and it never installs.
+Every build is published as a **pre-release** and opens a hardware-test issue per supported TrueNAS train (25.10, and 27 for every 27.x including RCs; TrueNAS 26 was renamed 27 at its first RC). Closing a train's issue as **completed** is the sign-off: it records that build as approved for that train, and only then does it install on that train's systems. Closing as **not planned** rejects it, and it never installs.
 
 A few consequences worth knowing:
 
-- **A test on one train does not approve the other.** A pass on TrueNAS 26 does not put a build on 25.10 systems, because the kernel, base system and TrueNAS internals differ.
+- **A test on one train does not approve the other.** A pass on TrueNAS 27 does not put a build on 25.10 systems, because the kernel, base system and TrueNAS internals differ.
 - **Nothing untested installs anywhere**, stable or beta. If nothing is approved for a system's train yet, the installer stops and names the waiting test issue rather than installing something unverified. Releases approved before this scheme count for every train.
 - **The installer is gated too.** `get.sh` runs the approved release's own install scripts, not the latest code on `main`, so script changes are hardware-tested like everything else.
 - **There is no way to publish straight to users.** The manual "publish to Latest" override was removed on purpose.
