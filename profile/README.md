@@ -24,7 +24,7 @@ This project is not affilated with, or endorsed by ixsystems/truenas in anyway.
 
 Every build needs a pass on real hardware before anyone's system installs it, and the maintainers only own so many devices. If you run TrueNAS with any of the hardware above, you can help without writing a line of code: each new build automatically opens a hardware-test issue in its repo with step-by-step instructions, and your comment confirming it works (or doesn't) is what releases that build to everyone else on your TrueNAS version.
 
-Sign-off is per TrueNAS release line, so a test on 26 releases the build to 26 systems and a test on 25.10 to 25.10 systems. Until someone tests a build, the installer refuses to install it rather than putting something unverified on your box. [How releases work](https://github.com/truenas-community-sysexts/.github/blob/main/docs/how-releases-work.md) explains the whole thing. 
+Sign-off is per TrueNAS release line, so a test on 27 releases the build to 27 systems and a test on 25.10 to 25.10 systems. Until someone tests a build, the installer refuses to install it rather than putting something unverified on your box. [How releases work](https://github.com/truenas-community-sysexts/.github/blob/main/docs/how-releases-work.md) explains the whole thing. 
 
 ## Related Projects
 
